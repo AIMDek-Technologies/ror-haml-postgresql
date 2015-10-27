@@ -1,0 +1,5 @@
+= geographic.text_field :zip_code,{:class => 'form-control',:placeholder => 'Zip Code', :required => true}
+.form-group
+    = geographic.collection_select(:country, Geographic.select(:country).uniq, :country, :country, {:include_blank => "Select Country"}, {:class => 'form-control'})
+    = geographic.collection_select(:state, Geographic.select(:state).uniq, :state, :state,{:include_blank => "Select State"}, {:class => 'form-control'})
+    = geographic.collection_select(:city, Geographic.select(:city).uniq, :city, :city,{:include_blank => "Select City"}, {:class => 'form-control'})

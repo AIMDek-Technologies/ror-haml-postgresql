@@ -1,0 +1,23 @@
+.panel.panel-default{:style => 'margin-top:10px'}
+  .panel-body
+    .form-group
+      = credit_card.text_field :card_number,{:class => 'form-control credit_card_number',:placeholder => t('credit_card.number'), :required => true}
+      = credit_card.text_field :name_on_card,{:class => 'form-control',:placeholder => t('credit_card.name'), :required => true}
+      = credit_card.text_field :cvv,{:class => 'form-control cvv',:placeholder => t('credit_card.cvv')}
+      = credit_card.text_field :credit_limit,{:class => 'form-control amount',:placeholder => 'Credit Limit', :required => true}
+      %br
+      = credit_card.text_field :statement_date,{:class => 'form-control datepicker',:placeholder => t('credit_card.statementDate'), :required => true, :style => 'margin-bottom:0;'}
+      .input-daterange.input-group
+        = credit_card.text_field :valid_from_date,{:class => 'form-control datepicker',:placeholder => t('credit_card.validFrom'), :required => true}
+        %span.input-group-addon to
+        = credit_card.text_field :valid_to_date,{:class => 'form-control datepicker',:placeholder => t('credit_card.validTo'), :required => true}
+  -#.panel-footer.credit_card_destroy
+  -#  .form-group
+  -#    = credit_card.check_box :_destroy
+  -#    = credit_card.label :_destroy, "Remove this Credit Card"
+
+:javascript
+   $(document).ready(function(){
+        $('.credit_card_number').inputmask("9999-9999-9999-9999");
+        $('.cvv').inputmask("999");
+   });

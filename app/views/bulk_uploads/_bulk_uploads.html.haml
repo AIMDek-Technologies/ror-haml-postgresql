@@ -1,0 +1,55 @@
+-if @bulk_uploads.size > 0
+  %table.table.table-hover.table-responsive.table-condensed.pretty{:style => 'background-color:#fff;text-align:center;'}
+    %tr
+      %th
+        = sortable 'id', 'Upload #'
+      %th
+        = sortable 'upload_date', 'Upload Date'
+      %th
+        = sortable 'total_records', 'Total Records'
+      %th
+        = sortable 'success_count', 'Success Records'
+      %th
+        = sortable 'failure_count', 'Failed Records'
+      %th Uploaded By
+      %th Error file
+    - @bulk_uploads.each do |bulk_upload|
+      %tr
+        %td
+          = bulk_upload.id
+        %td
+          = bulk_upload.upload_date
+        %td
+          = bulk_upload.total_records
+        %td
+          = bulk_upload.success_count
+        %td
+          = bulk_upload.failure_count
+        %td
+          = bulk_upload.uploaded_by
+        %td
+          = bulk_upload.error_file_path
+    %tr
+      %th
+        = sortable 'id', 'Upload #'
+      %th
+        = sortable 'upload_date', 'Upload Date'
+      %th
+        = sortable 'total_records', 'Total Records'
+      %th
+        = sortable 'success_count', 'Success Records'
+      %th
+        = sortable 'failure_count', 'Failed Records'
+      %th Uploaded By
+      %th Error file
+  = will_paginate @bulk_uploads, renderer: BootstrapPagination::Rails
+- else
+  %h3 No records found.
+
+:javascript
+  $(function(){
+       $("#bulkUploads th a,#bulkUploads .pagination a").on("click",function(e){
+              $.getScript(this.href);
+              e.preventDefault();
+        });
+  });

@@ -1,0 +1,55 @@
+-if @statements.size > 0
+  %table.table.table-hover.table-responsive.table-condensed.pretty{:style => 'background-color:#fff;text-align:center;'}
+    %tr
+      %th
+        = sortable "id", "Statement #"
+      %th
+        = sortable 'statement_date', 'Statement Date'
+      %th Credit Card Number
+      %th
+        = sortable 'from_date', 'From Date'
+      %th
+        = sortable 'to_date', 'To Date'
+      %th
+        = sortable 'amount_due', 'Amount Due'
+      %th Actions
+    - @statements.each do |statement|
+      %tr
+        %td
+          = statement.id
+        %td
+          = statement.statement_date.strftime('%d-%m-%Y')
+        %td
+          = statement.credit_card_number
+        %td
+          = statement.from_date.strftime('%d-%m-%Y')
+        %td
+          = statement.to_date.strftime('%d-%m-%Y')
+        %td
+          = number_to_currency(statement.amount_due, :unit => '₹.')
+        %td
+          %a{:href => "#{statement.document_url}", :target => '_blank', :class => 'btn btn-primary btn-sm'} Download
+    %tr
+      %th
+        = sortable "id", "Statement #"
+      %th
+        = sortable 'statement_date', 'Statement Date'
+      %th Credit Card Number
+      %th
+        = sortable 'from_date', 'From Date'
+      %th
+        = sortable 'to_date', 'To Date'
+      %th
+        = sortable 'amount_due', 'Amount Due'
+      %th Actions
+  = will_paginate @statements, renderer: BootstrapPagination::Rails
+- else
+  %h3 No records found.
+
+:javascript
+  $(function(){
+       $("#statements th a,#statements .pagination a").on("click",function(e){
+              $.getScript(this.href);
+              e.preventDefault();
+        });
+  });

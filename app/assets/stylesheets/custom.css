@@ -1,0 +1,57 @@
+.margin-top-20{
+    margin-top: 20px;
+}
+legend.scheduler-border {
+    width:inherit; /* Or auto */
+    padding:0 10px; /* To give a bit of padding on the left and right */
+    border-bottom:none;
+}
+input.form-control{
+    margin-bottom: 5px;
+}
+.panel{
+    margin-bottom: 10px;
+}
+.form-group{
+    width: 100% !important;
+}
+
+.search-form{
+    margin: 10px 0px 10px 0px;
+}
+.search-form .form-control{
+    width: 40%;
+    display: inline-block;
+}
+.align-center{
+    text-align: center;
+}
+.loading-icon{
+    display: block;
+    margin: auto;
+    padding: 2em;
+    width: 25%;
+}
+.bar {
+    height: 18px;
+    background: green;
+}
+.profilePicture{
+    height: 10.79em;
+}
+.profilePicture:hover{
+    cursor: pointer;
+}
+.credit-card-table td {
+    border: none !important;
+}
+.notice{
+    position: fixed;
+    right: 20px;
+    top: 100px;
+    box-shadow: 1px 5px 10px 0 rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+#main-header .col-md-6{
+   margin-top: 4px;
+}

@@ -1,0 +1,7 @@
+.form-group
+  = address.text_field :house_name,{:class => 'form-control',:placeholder => 'House Name', :required => true}
+  = address.text_field :street,{:class => 'form-control',:placeholder => 'Street', :required => true}
+  = address.text_field :area,{:class => 'form-control',:placeholder => 'Area', :required => true}
+  = address.hidden_field :geographic_id
+  = fields_for :geographic do |geographic|
+    = render 'shared/geographic',:geographic => geographic

@@ -1,0 +1,2 @@
+= form_for @customer,:url => {:controller => 'users', :action => :create},html: {:class => 'form-inline user-form'} do |f|
+  = render 'users/form', :f => f

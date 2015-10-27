@@ -1,0 +1,60 @@
+.modal-body
+  .row
+    .col-md-3
+      %span
+        = t('form_labels.select_customer')
+    .col-md-9
+      = f.collection_select :user_id, User.customers, :id, :display_name, {prompt: "Select Customer"}, {class: "form-control"}
+  %br
+  .row
+    .col-md-3
+      %span Select Credit Card
+    .col-md-9
+      %select{:class => 'form-control', :id => 'transaction_credit_cards', :name => 'transaction[credit_card_id]'}
+        %option{:value => ''} Select Credit Card
+  %br
+  .row
+    .col-md-3
+      %span Amount (₹.)
+    .col-md-9
+      = f.text_field :amount,{:class => 'form-control',:placeholder => 'Amount', :required => true, 'autocomplete' => 'off'}
+      = f.hidden_field :balance,{:required => true}
+      %span{:id => 'balance'}
+  %br
+  .row
+    .col-md-3
+      %span Description
+    .col-md-9
+      = f.text_area :description,{:class => 'form-control', :required => true}
+  %br
+    .row
+      .col-md-3
+        %span Transaction Date
+      .col-md-9
+        = f.text_field :transaction_date,{:class => 'form-control datepicker',:placeholder => t('transaction.transaction_date')}
+.modal-footer
+  %button{:class => 'btn btn-danger', 'data-dismiss' => 'modal'} Cancel
+  = f.submit t('buttons.save_transaction'),{:class => 'btn btn-success'}
+
+:javascript
+
+    $(function(){
+          $(document).ready(function(){
+              $('.datepicker').datepicker({
+                  format: "dd-mm-yyyy",
+                  autoclose: true
+              });
+          });
+    });
+        $(".transaction-form").submit(function(e){
+         $.post($(".transaction-form").attr("action"), $(".transaction-form").serialize(), function(response){
+           $('#modal-data').html("<img src='/images/loading-icon.gif'>");
+           if(response == 'success'){
+               $.get($("#transactions_search").attr("action"), $("#transactions_search").serialize(), null, "script");
+               $('#transactionModel').modal("hide");
+           }else{
+                 $('#modal-data').html(response);
+           }
+         });
+         e.preventDefault();
+       });

@@ -1,0 +1,91 @@
+.row
+  .col-md-4.col-md-offset-8
+    %button{:id => 'add_customer', :class => 'btn btn-default', "data-toggle" => 'modal', "data-target" => '#customerModal'} + Add Customer
+    %button{:id => 'add_credit_card_to_customer', :class => 'btn btn-default', "data-toggle" => 'modal', "data-target" => '#addCreditCardToCustomer'} + Add Credit Card To Customer
+= form_tag users_path, :method => :get, :id => 'customers_search', :class => 'search-form' do
+  = hidden_field_tag :direction, params[:direction]
+  = hidden_field_tag :sort, params[:sort]
+  %label Search:
+  = text_field_tag :search, params[:search], :class => 'form-control', :placeholder => 'Anything...'
+#customers
+  = render 'users/customers'
+#customerModal.modal.fade
+  .modal-dialog.modal-lg
+    .modal-content
+      .modal-header
+        %button{:type => 'button', :class => 'close', 'data-dismiss' => 'modal', 'aria-label' => 'Close'}
+          %span{'aria-hidden' => 'true'}
+            &times;
+        %h3.modal-title
+      #modal-data
+
+#addCreditCardToCustomer.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button{:type => 'button', :class => 'close', 'data-dismiss' => 'modal', 'aria-label' => 'Close'}
+          %span{'aria-hidden' => 'true'}
+            &times;
+        %h3.modal-title Add Credit Card To Customer
+      #credit-card-model-data
+
+:javascript
+  // global variables
+  var origin = window.location.origin;
+  $(function () {
+      // function to get the add customer form using the ajax call
+      $('#add_customer').click(function(){
+          var url = origin + '/customers/new';
+          $.ajax({
+              url: url,
+              type: 'get'
+          }).success(function(response){
+              $('#modal-data').html(response);
+              $('#customerModal .modal-title').html('Add Customer');
+              $("#user_password").val("#{SecureRandom.hex(8)}");
+          });
+      });
+      // function to get the add credit card to customer form using ajax
+      $("#add_credit_card_to_customer").click(function(e){
+        var url = origin + '/credit_cards/new';
+        $.ajax({
+            url: url,
+            type: 'get'
+        }).success(function(response){
+            $('#credit-card-model-data').html(response);
+        });
+      });
+      // function to handle searching on the customers data-tables
+      $("#customers_search .form-control").keyup(function(e){
+          $.get($("#customers_search").attr("action"), $("#customers_search").serialize(), null, "script");
+          e.preventDefault();
+      });
+  });
+  // function to get the edit customer form using the ajax call
+  function editCustomer(customer_id){
+      var url = origin + '/customers/edit/'+ customer_id;
+      $.ajax({
+          url: url,
+          type: 'get'
+      }).success(function(response){
+          $('#modal-data').html(response);
+          $('#customerModal .modal-title').html('Edit Customer');
+      });
+  }
+
+  // function to delete the customer using the ajax call
+  function deleteCustomer(customer_id,e){
+      //console.log(e.target);
+      var selectedCustomer = e.target.parentNode.parentNode.parentNode;
+      var confirmation = confirm('Are you sure you want to delete this customer?');
+      if(confirmation == true){
+        $(selectedCustomer).hide("fast");
+        var url = origin + '/customers/'+ customer_id;
+              $.ajax({
+                  url: url,
+                  type: 'delete'
+              }).success(function(response){
+                  $.get($("#customers_search").attr("action"), $("#customers_search").serialize(), null, "script");
+              });
+      }
+  }

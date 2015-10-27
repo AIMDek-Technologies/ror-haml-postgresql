@@ -1,0 +1,49 @@
+-if @transactions.size > 0
+  %table.table.table-hover.table-responsive.table-condensed.pretty{:style => 'background-color:#fff;text-align:center;'}
+    %tr
+      %th
+        = sortable 'id', 'Transaction #'
+      %th
+        = sortable 'transaction_date', 'Date'
+      %th Customer Name
+      %th
+        = sortable 'amount', 'Amount'
+      %th
+        = sortable 'balance', 'Balance'
+      %th Description
+    - @transactions.each do |transaction|
+      %tr
+        %td
+          = transaction.id
+        %td
+          = transaction.transaction_date.strftime('%d-%m-%Y')
+        %td
+          = transaction.customer_name
+        %td
+          = number_to_currency(transaction.amount, :unit => '₹.')
+        %td
+          = number_to_currency(transaction.balance, :unit => '₹.')
+        %td
+          = transaction.description
+    %tr
+      %th
+        = sortable "id", "Transaction #"
+      %th
+        = sortable "transaction_date", "Date"
+      %th Customer Name
+      %th
+        = sortable "amount", "Amount"
+      %th
+        = sortable "balance", "Balance"
+      %th Description
+  = will_paginate @transactions, renderer: BootstrapPagination::Rails
+- else
+  %h3 No records found.
+
+:javascript
+  $(function(){
+       $("#transactions th a,#transactions .pagination a").on("click",function(e){
+              $.getScript(this.href);
+              e.preventDefault();
+        });
+  });

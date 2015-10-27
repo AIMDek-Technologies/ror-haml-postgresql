@@ -1,0 +1,72 @@
+-if @customers.present?
+  %table.table.table-hover.table-responsive.table-condensed.pretty{:style => 'background-color:#fff;text-align:center;'}
+    %tr
+      %th
+        = sortable "id",t('user.customer_id')
+      %th
+        = sortable "first_name",t('user.first_name')
+      %th
+        = sortable "last_name",t('user.last_name')
+      %th
+        = sortable "email",t('user.email')
+      %th
+        = sortable "phone_number",t('user.phone_number')
+      %th
+        = t('credit_card.ccn')
+      %th
+        = t('credit_card.cl')
+      %th
+        =  t('credit_card.acl')
+      %th{'colspan' => 2}
+        =  t('views.actions')
+    - @customers.each do |customer|
+      %tr
+        %td
+          = customer.id
+        %td
+          = customer.first_name
+        %td
+          = customer.last_name
+        %td
+          = customer.email
+        %td
+          = customer.phone_number
+        %td{'colspan' => 3}
+          = render 'shared/credit_card_display', :credit_cards => customer.credit_cards
+        %td
+          %div
+            %button{:class => 'btn btn-primary btn-sm btn-edit-customer', "data-toggle" => 'modal', "data-target" => '#customerModal', 'customer_id' => customer.id, :onclick => "editCustomer(#{customer.id})"} Edit
+            %button{:class => 'btn btn-danger btn-sm btn-delete-customer', :onclick => "deleteCustomer(#{customer.id},event)"} Delete
+            -#= link_to t('buttons.delete'),  user_path(customer.id), :method => :delete, :data => { confirm: t('messages.confirm_delete') }, class: 'btn btn-danger btn-sm'
+    %tr
+      %th
+        = sortable "id",t('user.customer_id')
+      %th
+        = sortable "first_name",t('user.first_name')
+      %th
+        = sortable "last_name",t('user.last_name')
+      %th
+        = sortable "email",t('user.email')
+      %th
+        = sortable "phone_number",t('user.phone_number')
+      %th
+        = t('credit_card.ccn')
+      %th
+        = t('credit_card.cl')
+      %th
+        =  t('credit_card.acl')
+      %th{'colspan' => 2}
+        =  t('views.actions')
+  = will_paginate @customers, renderer: BootstrapPagination::Rails
+- else
+  %h3
+    = t('messages.no_records')
+
+:javascript
+  $(function(){
+       // to handle pagination and sorting
+       $("#customers th a,#customers .pagination a").on("click",function(e){
+              $.getScript(this.href);
+              e.preventDefault();
+        });
+  });

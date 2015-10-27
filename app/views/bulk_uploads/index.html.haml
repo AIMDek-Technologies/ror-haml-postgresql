@@ -1,0 +1,35 @@
+.row
+  .col-md-4.col-md-offset-8
+    %button{:class => 'btn btn-default upload', "data-toggle" => 'modal', "data-target" => '#bulkUploadModal', 'upload-type' => 'customers'} Upload Customers
+    %button{:class => 'btn btn-default upload', "data-toggle" => 'modal', "data-target" => '#bulkUploadModal', 'upload-type' => 'transactions'} Upload Transactions
+= form_tag bulk_uploads_path, :method => :get, :id => 'bulkUploads_search', :class => 'search-form' do
+  = hidden_field_tag :direction, params[:direction]
+  = hidden_field_tag :sort, params[:sort]
+  %label Search:
+  = text_field_tag :search, params[:search], :class => 'form-control', :placeholder => 'Anything...', :title => "Try using name, amount, balance, description, etc."
+#bulkUploads
+  = render 'bulk_uploads/bulk_uploads'
+#bulkUploadModal.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %button{:type => 'button', :class => 'close', 'data-dismiss' => 'modal', 'aria-label' => 'Close'}
+          %span{'aria-hidden' => 'true'}
+            &times;
+        %h3.modal-title
+      #bulk-upload-modal-data
+
+:javascript
+    // get the upload dialog on click of upload customers/transactions button
+    $(".upload").click(function(e){
+       var type = $(this).attr('upload-type');
+       var url = window.location.origin + '/bulk_uploads/new';
+       $.ajax({
+           url: url,
+           type: 'get'
+       }).success(function(response){
+           $('#bulkUploadModal .modal-dialog').attr('upload_type',type);
+           $('#bulkUploadModal .modal-title').html('Upload '+ type);
+           $('#bulk-upload-modal-data').html(response);
+       });
+     });

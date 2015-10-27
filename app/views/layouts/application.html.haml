@@ -1,0 +1,51 @@
+%html
+  %head
+    %title Credit Card Portal
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  %body.layout-body
+    .container-fluid
+      .row#main-header
+        .col-md-6
+          %img{:src => '/assets/aimdek-logo.png', :class => 'logo'}
+          %h1#appName{:style => 'display:inline-block;'} Credit Card Application
+        .col-md-6
+          - if session[:user_id].nil?
+            .col-md-9.col-md-offset-3
+              = render 'shared/login'
+              - if notice
+                .alert.alert-danger.notice
+                  = flash[:notice] unless flash[:notice].blank?
+          - else
+            .col-md-7.col-md-offset-5
+              - if notice
+                .alert.alert-success.notice
+                  = flash[:notice] unless flash[:notice].blank?
+              %h4
+                = "#{t('messages.welcome')},"
+                = User.find(session[:user_id]).full_name unless session[:user_id].blank?
+                = link_to t('buttons.logout'),  home_logout_path , :class => 'btn btn-danger btn-sm'
+      - if !session[:user_id].blank?
+        .container
+          %ul.nav.nav-pills.nav-justified.navigation-bar
+            %li.active{:role => "presentation"}
+              %a{:href => "#", :onclick => "window.location.href='/'"}
+                = t('navigation_labels.home')
+            %li{:role => "presentation"}
+              %a{:href => "#", :onclick => "window.location.href='#{customers_path}'"}
+                = t('navigation_labels.customers')
+            %li{:role => "presentation"}
+              %a{:href => "#", :onclick => "window.location.href='#{statements_path}'"}
+                = t('navigation_labels.statements')
+            %li{:role => "presentation"}
+              %a{:href => "#", :onclick => "window.location.href='#{transactions_path}'"}
+                = t('navigation_labels.transactions')
+            %li{:role => "presentation"}
+              %a{:href => "#", :onclick => "window.location.href='#{bulk_uploads_path}'"}
+                = t('navigation_labels.bulk_uploads')
+      .container.margin-top-20
+        = yield
+    %footer
+      %h5 © 2015 AIMDek Technologies. All rights reserved.

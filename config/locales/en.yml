@@ -1,0 +1,91 @@
+# Files in the config/locales directory are used for internationalization
+# and are automatically loaded by Rails. If you want to use locales other
+# than English, add the necessary files in this directory.
+#
+# To use the locales, use `I18n.t`:
+#
+#     I18n.t 'hello'
+#
+# In views, this is aliased to just `t`:
+#
+#     <%= t('hello') %>
+#
+# To use a different locale, set it with `I18n.locale`:
+#
+#     I18n.locale = :es
+#
+# This would use the information in config/locales/es.yml.
+#
+# To learn more, please read the Rails Internationalization guide
+# available at http://guides.rubyonrails.org/i18n.html.
+
+en:
+  user:
+    first_name: "First Name"
+    last_name: "Last Name"
+    phone_number: "Phone Number"
+    email: "Email Address"
+    date_of_birth: "Birth Date"
+    role: "Role"
+    password: "Password"
+    customer_id: "Customer#"
+    placeholder_pic: "/images/user-placeholder.png"
+  messages:
+    login_success: "You've successfully logged in."
+    login_failure: "Incorrect Email or Password, try again."
+    logout: "You've logged out."
+    welcome: "Welcome"
+    confirm_delete: "Are you sure you want to delete?"
+    no_records: "Sorry, No records found."
+  buttons:
+    login: "Login"
+    logout: "Logout"
+    save_customer: "Save Customer"
+    save_credit_card: "Save Credit Card"
+    cancel: "Cancel"
+    save_transaction: "Save Transaction"
+    delete: "Delete"
+  form_labels:
+    basic_details: "Basic Details"
+    address_details: "Address Details"
+    credit_card_details: "Credit Card Details"
+    select_customer: "Select Customer"
+  navigation_labels:
+    home: "Home"
+    customers: "Customers"
+    statements: "Statements"
+    transactions: "Transactions"
+    bulk_uploads: "Bulk Uploads"
+  credit_card:
+    number: "Credit Card Number"
+    name: "Name on Card"
+    validFrom: "Valid From"
+    validTo: "Valid To"
+    statementDate: "Statement Date"
+    cvv: "CVV/CVV2"
+    credit_limit: "Credit Limit"
+    available_credit_limit: "Available Credit Limit"
+    ccn: "Credit Card Number(CCN)"
+    cl: "Credit Limit(CL)"
+    acl: "Avaialble CL"
+  bulk_upload:
+    select_file: 'Select File'
+    upload_file: 'Upload File'
+  transaction:
+    transaction_date: "Transaction Date"
+  views:
+    pagination:
+      first: "&lt;&lt;"
+      prev: "&lt;"
+      last: "&gt;&gt;"
+      next: "&gt;"
+    actions: "Actions"
+  will_paginate:
+    previous_label: "<"
+    next_label: ">"
+  errors:
+    unsupported_format: 'Only CSV/XLS file is supported, given file format is not supported'
+    fileError: "There are some errors in uploaded file, please fix them and try again"
+#    credit_card_not_found: "Credit card with %{card_number} was not found in our records, please make sure that credit card is exists."
+
+

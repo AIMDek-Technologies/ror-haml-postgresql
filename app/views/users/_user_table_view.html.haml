@@ -1,0 +1,19 @@
+%table.table.table-responsive.table-condensed.table-hover.table-bordered
+  - customers.each do |customer|
+    %tr
+      %td
+        = customer.customer_id
+      %td
+        = customer.first_name
+      %td
+        = customer.last_name
+      %td
+        = customer.email
+      %td
+        = customer.phone_number
+      %td
+        = render 'shared/credit_card_display', :credit_cards => customer.credit_cards
+      %td
+        %div
+          %button{:class => 'btn btn-default btn-xs btn-edit-customer', "data-toggle" => 'modal', "data-target" => '#customerModal', 'customer_id' => customer.id, :onclick => "editCustomer(#{customer.id})"} Edit
+          = link_to 'Delete',  user_path(customer.id), :method => :delete, :data => { confirm: 'Are you sure you want to delete this customer?' }, class: 'btn btn-danger btn-xs'

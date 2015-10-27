@@ -1,0 +1,50 @@
+= form_for CreditCard.new,html: {:class => 'form-inline'} do |f|
+  .modal-body
+    .row
+      .col-md-3
+        %label Select Customer
+      .col-md-9
+        = f.collection_select :user_id, User.customers.order("last_name asc"), :id, :display_name, {prompt: "Select Customer"}, {class: "form-control"}
+        %br
+    .panel.panel-default{:style => 'margin-top:10px'}
+      .panel-heading
+        = t('form_labels.credit_card_details')
+      .panel-body
+        .form-group
+          = f.text_field :card_number,{:class => 'form-control credit_card_number',:placeholder => t('credit_card.number'), :required => true, :maxlength => 16, :size => ''}
+          = f.text_field :name_on_card,{:class => 'form-control',:placeholder => t('credit_card.name'), :required => true}
+          = f.text_field :cvv,{:class => 'form-control cvv',:placeholder => t('credit_card.cvv'), :required => true, :maxlength => 3, :size => ''}
+          %br
+          = f.text_field :credit_limit,{:class => 'form-control amount',:placeholder => 'Credit Limit', :required => true, :style => 'margin-bottom: 0px;'}
+          .input-daterange.input-group
+            = f.text_field :valid_from_date,{:class => 'form-control datepicker',:placeholder => t('credit_card.validFrom'), :required => true}
+            %span.input-group-addon to
+            = f.text_field :valid_to_date,{:class => 'form-control datepicker',:placeholder => t('credit_card.validTo'), :required => true}
+  .modal-footer
+    %button{:class => 'btn btn-danger', 'data-dismiss' => 'modal'} Cancel
+    = f.submit t('buttons.save_credit_card'),{:class => 'btn btn-success'}
+
+:javascript
+  $(function(){
+        $(document).ready(function(){
+            $('.datepicker').datepicker({
+                format: "dd-mm-yyyy",
+                autoclose: true
+            });
+            $('.credit_card_number').inputmask("9999-9999-9999-9999");
+            $('.cvv').inputmask("999");
+        });
+        // submits the add credit card form using ajax
+           $("#new_credit_card").submit(function(e){
+                    $.post($("#new_credit_card").attr("action"), $("#new_credit_card").serialize(), function(response){
+                      $("#credit-card-model-data").html("<img class='loading-icon' src='/images/loading-icon.gif'><h3 class='align-center'>Please wait...</h3>");
+                      if(response == 'success'){
+                          $.get($("#customers_search").attr("action"), $("#customers_search").serialize(), null, "script");
+                          $('#addCreditCardToCustomer').modal("hide");
+                      }else{
+                          $('#credit-card-model-data').html(response);
+                      }
+                    });
+                    e.preventDefault();
+           });
+  });

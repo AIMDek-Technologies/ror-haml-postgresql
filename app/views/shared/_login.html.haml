@@ -1,0 +1,5 @@
+= form_for :user,:url =>  home_login_path ,:html => {:class => 'form-inline', :id => 'formLogin'} do |f|
+  .form-group
+    = f.email_field :email,{:class => 'form-control', :placeholder => t('user.email'), :required => true}
+    = f.password_field :password,{:class => 'form-control', :placeholder => t('user.password'), :required => true}
+    = f.submit t('buttons.login'),{:class => 'btn btn-success form-control'}

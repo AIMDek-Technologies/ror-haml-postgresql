@@ -1,0 +1,2 @@
+= form_for :transaction,:url => {:controller => 'transactions', :action => :create},html: {:class => 'form-horizontal transaction-form'} do |f|
+  = render 'transactions/form', :f => f

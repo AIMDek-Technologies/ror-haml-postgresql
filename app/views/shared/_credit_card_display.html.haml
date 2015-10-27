@@ -1,0 +1,9 @@
+%table{:class => 'table table-responsive table-bordered table-condensed credit-card-table', :style => 'border:none !important;'}
+  - credit_cards.each do |card|
+    %tr
+      %td
+        = card.card_number
+      %td
+        = number_to_currency(card.credit_limit, :unit => '₹.')
+      %td
+        = number_to_currency(card.available_credit_limit, :unit => '₹.')
